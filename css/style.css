@@ -101,11 +101,11 @@ button {
 }
 
 .text-white {
-  color: #ffffff;
+  color: #ffffff !important;
 }
 
 .text-muted-light {
-  color: var(--color-text-light);
+  color: #cbd5e1 !important;
 }
 
 .text-center {
@@ -161,6 +161,18 @@ button {
   color: var(--color-primary);
   margin-bottom: 0.85rem;
   letter-spacing: -0.02em;
+}
+
+.bg-dark .section-heading,
+.section-heading.text-white,
+.why-section .section-heading {
+  color: #ffffff !important;
+}
+
+.bg-dark .section-subheading,
+.section-subheading.text-muted-light,
+.why-section .section-subheading {
+  color: #cbd5e1 !important;
 }
 
 .section-subheading {
