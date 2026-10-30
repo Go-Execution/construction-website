@@ -1,12 +1,67 @@
 /**
- * Apex Build & Construction Group - Main Interactive Scripts
- * Handles mobile nav, smooth interactions, portfolio filtering, 
- * live cost estimation calculator, and FAQ accordions.
+ * Apex Build Construction - Interactive & Animation Scripts
+ * - Scroll-reveal animations (IntersectionObserver)
+ * - Stat counters count-up
+ * - Live cost estimation calculator
+ * - Portfolio category filters
+ * - FAQ accordion
+ * - Mobile menu & Back to Top button
  */
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  // --- 1. Mobile Menu Toggle ---
+  // --- 1. Scroll-Reveal Animations (IntersectionObserver) ---
+  const revealElements = document.querySelectorAll('.reveal');
+
+  if ('IntersectionObserver' in window) {
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target); // Trigger only once for performance
+        }
+      });
+    }, {
+      root: null,
+      threshold: 0.12,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    revealElements.forEach(el => revealObserver.observe(el));
+  } else {
+    // Fallback for older browsers
+    revealElements.forEach(el => el.classList.add('visible'));
+  }
+
+  // --- 2. Interactive Animated Stat Counters ---
+  const counters = document.querySelectorAll('.counter');
+  let countersStarted = false;
+
+  function runCounters() {
+    counters.forEach(counter => {
+      const target = parseInt(counter.getAttribute('data-target'), 10);
+      const suffix = counter.textContent.includes('+') ? '+' : '';
+      let count = 0;
+      const step = Math.ceil(target / 45);
+
+      const timer = setInterval(() => {
+        count += step;
+        if (count >= target) {
+          counter.textContent = `${target}${suffix}`;
+          clearInterval(timer);
+        } else {
+          counter.textContent = `${count}${suffix}`;
+        }
+      }, 35);
+    });
+  }
+
+  // Trigger counters after slight delay on hero load
+  setTimeout(() => {
+    runCounters();
+  }, 400);
+
+  // --- 3. Mobile Menu Toggle ---
   const menuToggle = document.getElementById('menuToggle');
   const navLinks = document.getElementById('navLinks');
   const navLinkItems = document.querySelectorAll('.nav-link');
@@ -19,7 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
       navLinks.classList.toggle('active');
     });
 
-    // Close mobile nav when clicking any link
     navLinkItems.forEach(link => {
       link.addEventListener('click', () => {
         menuToggle.setAttribute('aria-expanded', 'false');
@@ -29,20 +83,31 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- 2. Header Scroll Effect & Active Navigation Link Spy ---
+  // --- 4. Header Scroll State & Back to Top Button ---
   const header = document.getElementById('header');
+  const backToTopBtn = document.getElementById('backToTop');
   const sections = document.querySelectorAll('section[id]');
 
   window.addEventListener('scroll', () => {
-    // Header shadow on scroll
-    if (window.scrollY > 20) {
+    const scrollPos = window.scrollY;
+
+    // Header shadow
+    if (scrollPos > 20) {
       header.classList.add('scrolled');
     } else {
       header.classList.remove('scrolled');
     }
 
-    // ScrollSpy for Nav Links
-    const scrollY = window.pageYOffset;
+    // Back to top button visibility
+    if (backToTopBtn) {
+      if (scrollPos > 400) {
+        backToTopBtn.classList.add('show');
+      } else {
+        backToTopBtn.classList.remove('show');
+      }
+    }
+
+    // Active Navigation Link Spy
     sections.forEach(current => {
       const sectionHeight = current.offsetHeight;
       const sectionTop = current.offsetTop - 120;
@@ -50,7 +115,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const targetNavLink = document.querySelector(`.nav-links a[href*="${sectionId}"]`);
 
       if (targetNavLink) {
-        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+        if (scrollPos > sectionTop && scrollPos <= sectionTop + sectionHeight) {
           targetNavLink.classList.add('active');
         } else {
           targetNavLink.classList.remove('active');
@@ -59,58 +124,56 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // --- 3. Portfolio Category Filtering ---
+  if (backToTopBtn) {
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  }
+
+  // --- 5. Portfolio Filtering with Smooth Animation ---
   const filterBtns = document.querySelectorAll('.filter-btn');
   const projectCards = document.querySelectorAll('.project-card');
 
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-      // Toggle active button state
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      const filterValue = btn.getAttribute('data-filter');
+      const filter = btn.getAttribute('data-filter');
 
       projectCards.forEach(card => {
-        const cardCategory = card.getAttribute('data-category');
-        if (filterValue === 'all' || cardCategory === filterValue) {
+        const cat = card.getAttribute('data-category');
+        if (filter === 'all' || cat === filter) {
           card.style.display = 'flex';
           setTimeout(() => {
             card.style.opacity = '1';
             card.style.transform = 'translateY(0)';
-          }, 10);
+          }, 20);
         } else {
           card.style.opacity = '0';
-          card.style.transform = 'translateY(10px)';
+          card.style.transform = 'translateY(12px)';
           setTimeout(() => {
             card.style.display = 'none';
-          }, 200);
+          }, 250);
         }
       });
     });
   });
 
-  // --- 4. Interactive Construction Cost Calculator ---
+  // --- 6. Quick Construction Estimator ---
   const calcType = document.getElementById('calcType');
   const calcSqft = document.getElementById('calcSqft');
   const sqftDisplay = document.getElementById('sqftDisplay');
   const calcResultDisplay = document.getElementById('calcResultDisplay');
-  const finishGradeInputs = document.querySelectorAll('input[name="finishGrade"]');
   const useEstimateBtn = document.getElementById('useEstimateBtn');
 
-  // Pricing model matrices (Base cost per sq. ft. [Low, High])
   const baseRates = {
     commercial: [240, 350],
     residential: [280, 420],
-    renovation: [150, 260],
-    industrial: [130, 210]
-  };
-
-  // Grade multipliers
-  const gradeMultipliers = {
-    standard: 0.90,
-    premium: 1.05,
-    luxury: 1.30
+    renovation: [150, 260]
   };
 
   function updateEstimate() {
@@ -120,16 +183,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const sqft = parseInt(calcSqft.value, 10);
     sqftDisplay.textContent = `${sqft.toLocaleString()} sq ft`;
 
-    let selectedGrade = 'premium';
-    finishGradeInputs.forEach(input => {
-      if (input.checked) selectedGrade = input.value;
-    });
-
-    const [lowRate, highRate] = baseRates[type] || [200, 300];
-    const multiplier = gradeMultipliers[selectedGrade] || 1;
-
-    const totalLow = Math.round((sqft * lowRate * multiplier) / 1000) * 1000;
-    const totalHigh = Math.round((sqft * highRate * multiplier) / 1000) * 1000;
+    const [low, high] = baseRates[type] || [200, 300];
+    const totalLow = Math.round((sqft * low) / 1000) * 1000;
+    const totalHigh = Math.round((sqft * high) / 1000) * 1000;
 
     calcResultDisplay.textContent = `$${totalLow.toLocaleString()} – $${totalHigh.toLocaleString()}`;
   }
@@ -137,18 +193,15 @@ document.addEventListener('DOMContentLoaded', () => {
   if (calcType && calcSqft) {
     calcType.addEventListener('change', updateEstimate);
     calcSqft.addEventListener('input', updateEstimate);
-    finishGradeInputs.forEach(radio => radio.addEventListener('change', updateEstimate));
-    updateEstimate(); // Initialize
+    updateEstimate();
   }
 
-  // Prepopulate Contact Form with Calculator Result
   if (useEstimateBtn) {
     useEstimateBtn.addEventListener('click', () => {
       const type = calcType.value;
       const sqft = calcSqft.value;
       const estimateText = calcResultDisplay.textContent;
 
-      // Map to contact select
       const contactTypeSelect = document.getElementById('projectTypeSelect');
       if (contactTypeSelect) {
         contactTypeSelect.value = type;
@@ -156,10 +209,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const scopeTextarea = document.getElementById('projectScope');
       if (scopeTextarea) {
-        scopeTextarea.value = `[Applied from Estimator]: Looking to build approximately ${parseInt(sqft, 10).toLocaleString()} sq. ft. (${type.toUpperCase()}). Estimated calculator budget is ${estimateText}. Please prepare a formal feasibility review.`;
+        scopeTextarea.value = `[Estimator: ${parseInt(sqft, 10).toLocaleString()} sq ft, ${type.toUpperCase()}, Range: ${estimateText}]. Requesting formal site review.`;
       }
 
-      // Smooth scroll to contact
       const contactSection = document.getElementById('contact');
       if (contactSection) {
         contactSection.scrollIntoView({ behavior: 'smooth' });
@@ -167,7 +219,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // --- 5. FAQ Accordion Toggle ---
+  // --- 7. FAQ Accordion ---
   const faqItems = document.querySelectorAll('.faq-item');
 
   faqItems.forEach(item => {
@@ -175,22 +227,20 @@ document.addEventListener('DOMContentLoaded', () => {
     questionBtn.addEventListener('click', () => {
       const isActive = item.classList.contains('active');
 
-      // Close all other FAQs
-      faqItems.forEach(otherItem => {
-        if (otherItem !== item) {
-          otherItem.classList.remove('active');
-          const btn = otherItem.querySelector('.faq-question');
+      faqItems.forEach(other => {
+        if (other !== item) {
+          other.classList.remove('active');
+          const btn = other.querySelector('.faq-question');
           if (btn) btn.setAttribute('aria-expanded', 'false');
         }
       });
 
-      // Toggle current
       item.classList.toggle('active', !isActive);
       questionBtn.setAttribute('aria-expanded', String(!isActive));
     });
   });
 
-  // --- 6. Contact Form Validation & Submission ---
+  // --- 8. Contact Form Handling ---
   const contactForm = document.getElementById('contactForm');
   const formSuccessMessage = document.getElementById('formSuccessMessage');
   const submitFormBtn = document.getElementById('submitFormBtn');
@@ -205,25 +255,24 @@ document.addEventListener('DOMContentLoaded', () => {
       const scope = document.getElementById('projectScope').value.trim();
 
       if (!name || !email || !phone || !scope) {
-        alert('Please fill out all required fields marked with *');
+        alert('Please fill out all required fields.');
         return;
       }
 
-      // Simulate sending
       submitFormBtn.disabled = true;
-      submitFormBtn.textContent = 'Submitting Request...';
+      submitFormBtn.textContent = 'Sending...';
 
       setTimeout(() => {
         contactForm.reset();
         submitFormBtn.disabled = false;
-        submitFormBtn.textContent = 'Submit Proposal Request';
+        submitFormBtn.textContent = 'Send Request';
         if (formSuccessMessage) {
           formSuccessMessage.style.display = 'block';
           setTimeout(() => {
             formSuccessMessage.style.display = 'none';
-          }, 8000);
+          }, 6000);
         }
-      }, 900);
+      }, 700);
     });
   }
 
