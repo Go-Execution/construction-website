@@ -1,5 +1,5 @@
 /**
- * Apex Build Construction - Interactive & Animation Scripts
+ * Clifton Constructions - Interactive & Animation Scripts
  * - Scroll-reveal animations (IntersectionObserver)
  * - Stat counters count-up
  * - Live cost estimation calculator

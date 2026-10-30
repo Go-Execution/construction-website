@@ -1,40 +1,34 @@
-# Apex Build & Construction Group — One-Page Modern Construction Website
+# Clifton Constructions — One-Page Modern Construction Website
 
-A clean, responsive, single-page website for a premier commercial, residential, and civil construction group. Built with clean semantic HTML5, modern CSS3 (with CSS variables and responsive grid/flexbox), and vanilla JavaScript.
+A clean, responsive, single-page website for **Clifton Constructions** (Est. 1973), a premier commercial and residential general contracting firm.
 
-## 🏗️ Project Overview
-
-- **Type:** Single-Page Architecture
-- **Stack:** Pure HTML5, CSS3, Vanilla JavaScript (Zero build step or runtime dependencies required)
-- **Design Philosophy:** Clean, authoritative, architectural, and modern high-contrast aesthetic with industrial amber accents (`#f59e0b`), slate navy backgrounds (`#0f172a`), and clean typography (`Plus Jakarta Sans`).
+## 🏗️ Company Details
+- **Company Name:** Clifton Constructions
+- **Email:** [clifton1973@gmail.com](mailto:clifton1973@gmail.com)
+- **Phone:** [(620) 224-4080](tel:+16202244080)
+- **License:** Licensed & Bonded #GC-984210
 
 ## 🚀 Key Features
 
-1. **Top Announcement Bar:** Business status indicator (Licensed & Bonded), quick office coordinates, direct phone line, and operating hours.
-2. **Sticky Navigation Bar:** Architectural SVG logo, desktop navigation with active scroll spy, free consultation CTA, and responsive mobile hamburger menu.
-3. **High-Impact Hero Section:**
-   - Dynamic headline & value proposition
-   - Dual Call-to-Actions (Free Consultation & Portfolio links)
-   - Live metrics bar: 25+ Years Experience, 480+ Completed Projects, 100% OSHA Compliance, $1.4B+ Delivered Value.
-4. **Accreditations Ribbon:** Certified Master Builders, OSHA 30, BBB A+ Rating, LEED Green Certified, $20M Bonding.
-5. **About Us Section:** Two-column architectural story, zero-accident credential, and 3 key commitments (Fixed-price guarantee, single PM point of contact, 10-year warranty).
-6. **Core Capabilities (Services):**
-   - Commercial Construction
-   - Custom Residential Estates
-   - Renovation & Adaptive Reuse
-   - Civil & Structural Engineering
-   - General Contracting & Turnkey Management
-   - Pre-Construction & 3D BIM Clash Detection
-7. **Filterable Portfolio Gallery:** Interactive tabs (All, Commercial, Residential, Industrial, Renovation) with project specs, locations, and photography.
-8. **The Apex Difference:** 4-pillar differentiator cards and company performance benchmark metrics.
-9. **4-Stage Construction Roadmap:** Step-by-step roadmap from site analysis & feasibility to municipal sign-off and warranty handover.
-10. **Interactive Construction Cost Calculator:**
-    - Live cost modeling based on project category, square footage slider, and finishes grade.
-    - One-click "Apply Estimate to Proposal Request" button that smoothly scrolls and prefills the contact form.
-11. **Verified Client Testimonials:** Real-world feedback from developers, estate owners, and architectural partners.
-12. **FAQ Accordion:** Expandable answers addressing guaranteed maximum price contracts, licensing, and warranty coverage.
-13. **Comprehensive Consultation & RFP Form:** Clean contact submission form with input validation and feedback messaging.
-14. **Footer:** Company credentials, quick links, emergency response badge, licensing notice, and copyright.
+1. **Top Announcement Bar:** Business status (`Licensed & Bonded`), direct phone line `(620) 224-4080`.
+2. **Sticky Navigation Bar:** Custom SVG branding `CLIFTON CONSTRUCTIONS`, desktop navigation with active ScrollSpy, mobile hamburger menu, and "Get a Quote" CTA button.
+3. **Hero Section:**
+   - Established 1973 heritage branding
+   - Bold headline & value proposition
+   - Dual Call-to-Actions (Free Quote & Portfolio)
+   - Animated count-up metrics: 50+ Years Heritage, 450+ Completed Projects, 100% Safety Record, $1.2B+ Delivered Value.
+4. **Accreditations Ribbon:** Master Builders, OSHA 30, BBB A+ Rating, $20M Insured & Bonded.
+5. **About Us:** 3 clear pillars (Fixed-Price Guarantee, Dedicated Site Superintendent, 10-Year Warranty).
+6. **Core Capabilities (Services):** 4 clean cards for Commercial Builds, Custom Homes, Major Renovations, and Civil & Structural engineering.
+7. **Filterable Portfolio Gallery:** Interactive tabs (*All, Commercial, Residential, Renovation*) with local bundled high-res images and specs.
+8. **The Clifton Difference:** 3 value proposition cards highlighting fixed pricing, in-house master trades, and live client tracking portal.
+9. **Simple 4-Step Process:** Clear visual roadmap from consultation to final handover.
+10. **Interactive Ballpark Estimator:** Real-time calculation based on project category and square footage slider, with direct prefill button.
+11. **Client Reviews:** Testimonials from developers, estate owners, and architects.
+12. **FAQ Accordion:** Expandable answers addressing pricing guarantees, licensing, permits, and structural warranties.
+13. **Contact & Consultation Form:** Direct phone `(620) 224-4080` and email `clifton1973@gmail.com`, plus clean proposal submission form with instant feedback.
+14. **Clean Footer:** Clifton branding, quick links, direct contact info, and copyright.
+15. **Smooth Animations:** IntersectionObserver scroll reveal, floating badge, button pulse glow, and floating Back to Top button.
 
 ## 📁 File Structure
 
@@ -45,20 +39,19 @@ construction-website/
 │   └── style.css       # Clean, modern, responsive CSS styling
 ├── js/
 │   └── main.js         # Mobile menu, scrollspy, filter, calculator, FAQ
+├── assets/
+│   └── images/         # Local high-resolution optimized images
 ├── .gitignore
 └── README.md
 ```
 
 ## 💻 Local Preview & Usage
 
-Simply double click `index.html` or open it with any web browser, or serve it using any local static web server:
+Simply double-click `index.html` to open in any browser, or run a local static server:
 
 ```bash
 # Python
 python -m http.server 8000
-
-# Node / npx
-npx serve .
 ```
 
 ---
